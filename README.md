@@ -4,6 +4,7 @@
 安装最新版
 
 composer require rabbit-dog/generate-sign -vvv
+composer require 'rabbit-dog/generate-sign:dev-master' -vvv
 
 use Rabbit\GenerateSign\Factory
 
