@@ -1,15 +1,10 @@
 {
     "name": "rabbit-dog/generate-sign",
     "description": "tencent cloud video upload key generation",
-    "type": "1",
-    "require-dev": {
-        "php": ">=7.0.0"
-    },
     "license": "MIT",
-    "autoload": {
-        "psr-4": {
-            "RabbitDog\\GenerateSign\\": "src/"
-        }
+    "keywords": ["hyperf"],
+    "require": {
+        "php": ">=7.0"
     },
     "authors": [
         {
@@ -17,6 +12,10 @@
             "email": "zhangeffie@163.com"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "RabbitDog\\GenerateSign\\": "src/"
+        }
+    },
     "minimum-stability": "dev",
-    "require": {}
 }
