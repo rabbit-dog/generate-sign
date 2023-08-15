@@ -2,7 +2,7 @@
     "name": "rabbit-dog/generate-sign",
     "description": "tencent cloud video upload key generation",
     "license": "MIT",
-    "keywords": ["腾讯视频上传", "七牛","CC"]
+    "keywords": ["腾讯视频上传", "七牛","CC"],
     "require": {
         "php": ">=7.0.0"
     },
