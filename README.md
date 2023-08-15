@@ -3,7 +3,7 @@
  
 安装最新版
 
-composer require rabbit-dog/hyperf-filter-env -vvv
+composer require rabbit-dog/generate-sign -vvv
 
 use Rabbit\GenerateSign\Factory
 
