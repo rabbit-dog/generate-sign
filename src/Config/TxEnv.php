@@ -9,6 +9,7 @@ use \Exception;
  */
 class TxEnv implements Sign
 {
+    const VOD_SUB_APPID = '应用ID';
     /**
      * @var int $secretId
      * 云 API 密钥中的 SecretId，获取方式请参见 客户端上传指引 - 获取云 API 密钥
@@ -58,7 +59,7 @@ class TxEnv implements Sign
      * @var int
      * 子应用 ID，如果不填写、填写0或填写开发者的腾讯云 AppId，则操作的子应用为“主应用”。
      */
-    protected $vodSubAppId = 0;
+    protected $vodSubAppId = self::VOD_SUB_APPID;;
     /**
      * @var int
      * 会话上下文，用于透传用户请求信息，当指定 procedure 参数后，任务流状态变更回调 将返回该字段值，最长 1000 个字符。
