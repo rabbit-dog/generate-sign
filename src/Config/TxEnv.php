@@ -13,12 +13,12 @@ class TxEnv implements Sign
      * @var int $secretId
      * 云 API 密钥中的 SecretId，获取方式请参见 客户端上传指引 - 获取云 API 密钥
      */
-    protected $secretId = 'AKIDuys7JLAqWzSpLciZM3Yp3HMFkNo9KI4c';
+    protected $secretId = '';
     /**
      * @var int $secretKey
      * 获取调用服务端 API 所需的安全凭证
      */
-    protected $secretKey = 'QdcNvKXbTt6ILAmETWKvRowqWy06yc4Z';
+    protected $secretKey = '';
     /**
      * @var int $expireTime
      * 签名到期 Unix 时间戳。
@@ -79,7 +79,7 @@ class TxEnv implements Sign
     public function __construct(array $config)
     {
         array_walk($config, function ($value, $key) {
-            $this->$key = $value;
+            !is_null($this->$key) && $this->$key = $value;
         });
     }
 
@@ -105,9 +105,24 @@ class TxEnv implements Sign
                 'sourceContext'    => $this->sourceContext,
                 'sessionContext'   => $this->sessionContext,
                 'storageRegion'    => $this->storageRegion,
-            ];
+            ]+ $this->dynamicState();;
         } catch (Exception $e) {
             throw new \Exception('密钥配置异常');
         }
+    }
+     /**
+     * @param array $release
+     * @param array $callback
+     * @return array
+     */
+    public function dynamicState($release = ['sessionContext', 'storageRegion'], $callback = [])
+    {
+        array_walk($release, function ($value, $key) use (&$callback) {
+            if ($this->$value != '') {
+                $callback = array_merge([$value => $this->$value] + $callback);
+            }
+        });
+
+        return $callback;
     }
 }
