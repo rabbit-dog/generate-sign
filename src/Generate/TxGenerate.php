@@ -20,6 +20,7 @@ class TxGenerate implements Factory
             /**
              * @var $secret_key
              */
+            unset($env['secret_key']);
             return base64_encode(hash_hmac('SHA1', $original = http_build_query($env), (string)$secret_key, true) . $original);
         } catch (\Exception $exception) {
             throw new \Exception('密钥加密异常');
