@@ -36,9 +36,9 @@ class Factory
     {
         try {
             $factory = new TxFactory();
-            $env     = $factory->createEnv($config)->getEnv();
+            $env     = $factory->createPlayEnv($config)->getEnv();
 
-            return $factory->createSign()->generate($env);
+            return jwt.encode($env, PlayKey, algorithm='HS256');
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }

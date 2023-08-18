@@ -7,7 +7,7 @@ use \Exception;
 /**
  * Class TxEnv
  */
-class TxEnv implements Sign
+class TxEnv extends Base
 {
     const VOD_SUB_APPID = '应用ID';
     /**
@@ -77,13 +77,6 @@ class TxEnv implements Sign
      */
     protected $procedure = 'tao_hls';
 
-    public function __construct(array $config)
-    {
-        array_walk($config, function ($value, $key) {
-            !is_null($this->$key) && $this->$key = $value;
-        });
-    }
-
     /**
      * @return array
      * @throws \Exception
@@ -92,63 +85,23 @@ class TxEnv implements Sign
     {
         try {
             return [
-                       'secretId'         => $this->secretId,
-                       'secret_key'       => $this->secretKey,
-                       'currentTimeStamp' => $t = time(),
-                       'random'           => rand(),
-                       'expireTime'       => $t + $this->expireTime,
-                       'procedure'        => $this->procedure,
-                       'oneTimeValid'     => $this->oneTimeValid,
-                       'taskNotifyMode'   => $this->taskNotifyMode,
-                       'classId'          => $this->classId,
-                       'taskPriority'     => $this->taskPriority,
-                       'vodSubAppId'      => $this->vodSubAppId,
-                       'sourceContext'    => $this->sourceContext,
-                       'sessionContext'   => $this->sessionContext,
-                       'storageRegion'    => $this->storageRegion,
-                   ] + $this->dynamicState();
+                'secretId'         => $this->secretId,
+                'secret_key'       => $this->secretKey,
+                'currentTimeStamp' => $t = time(),
+                'random'           => rand(),
+                'expireTime'       => $t + $this->expireTime,
+                'procedure'        => $this->procedure,
+                'oneTimeValid'     => $this->oneTimeValid,
+                'taskNotifyMode'   => $this->taskNotifyMode,
+                'classId'          => $this->classId,
+                'taskPriority'     => $this->taskPriority,
+                'vodSubAppId'      => $this->vodSubAppId,
+                'sourceContext'    => $this->sourceContext,
+                'sessionContext'   => $this->sessionContext,
+                'storageRegion'    => $this->storageRegion,
+            ]+ $this->dynamicState();
         } catch (Exception $e) {
             throw new \Exception('密钥配置异常');
-        }
-    }
-
-    /**
-     * @param array $release
-     * @param array $callback
-     * @return array
-     */
-    public function dynamicState($release = ['sessionContext', 'storageRegion'], $callback = [])
-    {
-        array_walk($release, function ($value, $key) use (&$callback) {
-            if ($this->$value != '') {
-                $callback = array_merge([$value => $this->$value] + $callback);
-            }
-        });
-
-        return $callback;
-    }
-
-    public function getPlayEnv()
-    {
-        try {
-            return [
-                       'secretId'         => $this->secretId,
-                       'secret_key'       => $this->secretKey,
-                       'currentTimeStamp' => $t = time(),
-                       'random'           => rand(),
-                       'expireTime'       => $t + $this->expireTime,
-                       'procedure'        => $this->procedure,
-                       'oneTimeValid'     => $this->oneTimeValid,
-                       'taskNotifyMode'   => $this->taskNotifyMode,
-                       'classId'          => $this->classId,
-                       'taskPriority'     => $this->taskPriority,
-                       'vodSubAppId'      => $this->vodSubAppId,
-                       'sourceContext'    => $this->sourceContext,
-                       'sessionContext'   => $this->sessionContext,
-                       'storageRegion'    => $this->storageRegion,
-                   ] + $this->dynamicState();
-        } catch (Exception $e) {
-            throw new \Exception('播放密钥配置异常');
         }
     }
 }
