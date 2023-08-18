@@ -25,6 +25,5 @@ class TxGenerate implements Factory
         } catch (\Exception $exception) {
             throw new \Exception('密钥加密异常');
         }
-
     }
 }

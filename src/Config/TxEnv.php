@@ -14,12 +14,12 @@ class TxEnv implements Sign
      * @var int $secretId
      * 云 API 密钥中的 SecretId，获取方式请参见 客户端上传指引 - 获取云 API 密钥
      */
-    protected $secretId = '';
+    protected $secretId = 'SecretId';
     /**
      * @var int $secretKey
      * 获取调用服务端 API 所需的安全凭证
      */
-    protected $secretKey = '';
+    protected $secretKey = 'secretKey';
     /**
      * @var int $expireTime
      * 签名到期 Unix 时间戳。
@@ -59,7 +59,7 @@ class TxEnv implements Sign
      * @var int
      * 子应用 ID，如果不填写、填写0或填写开发者的腾讯云 AppId，则操作的子应用为“主应用”。
      */
-    protected $vodSubAppId = self::VOD_SUB_APPID;;
+    protected $vodSubAppId = self::VOD_SUB_APPID;
     /**
      * @var int
      * 会话上下文，用于透传用户请求信息，当指定 procedure 参数后，任务流状态变更回调 将返回该字段值，最长 1000 个字符。
@@ -92,26 +92,27 @@ class TxEnv implements Sign
     {
         try {
             return [
-                'secretId'         => $this->secretId,
-                'secret_key'       => $this->secretKey,
-                'currentTimeStamp' => $t = time(),
-                'random'           => rand(),
-                'expireTime'       => $t + $this->expireTime,
-                'procedure'        => $this->procedure,
-                'oneTimeValid'     => $this->oneTimeValid,
-                'taskNotifyMode'   => $this->taskNotifyMode,
-                'classId'          => $this->classId,
-                'taskPriority'     => $this->taskPriority,
-                'vodSubAppId'      => $this->vodSubAppId,
-                'sourceContext'    => $this->sourceContext,
-                'sessionContext'   => $this->sessionContext,
-                'storageRegion'    => $this->storageRegion,
-            ]+ $this->dynamicState();;
+                       'secretId'         => $this->secretId,
+                       'secret_key'       => $this->secretKey,
+                       'currentTimeStamp' => $t = time(),
+                       'random'           => rand(),
+                       'expireTime'       => $t + $this->expireTime,
+                       'procedure'        => $this->procedure,
+                       'oneTimeValid'     => $this->oneTimeValid,
+                       'taskNotifyMode'   => $this->taskNotifyMode,
+                       'classId'          => $this->classId,
+                       'taskPriority'     => $this->taskPriority,
+                       'vodSubAppId'      => $this->vodSubAppId,
+                       'sourceContext'    => $this->sourceContext,
+                       'sessionContext'   => $this->sessionContext,
+                       'storageRegion'    => $this->storageRegion,
+                   ] + $this->dynamicState();
         } catch (Exception $e) {
             throw new \Exception('密钥配置异常');
         }
     }
-     /**
+
+    /**
      * @param array $release
      * @param array $callback
      * @return array
@@ -125,5 +126,29 @@ class TxEnv implements Sign
         });
 
         return $callback;
+    }
+
+    public function getPlayEnv()
+    {
+        try {
+            return [
+                       'secretId'         => $this->secretId,
+                       'secret_key'       => $this->secretKey,
+                       'currentTimeStamp' => $t = time(),
+                       'random'           => rand(),
+                       'expireTime'       => $t + $this->expireTime,
+                       'procedure'        => $this->procedure,
+                       'oneTimeValid'     => $this->oneTimeValid,
+                       'taskNotifyMode'   => $this->taskNotifyMode,
+                       'classId'          => $this->classId,
+                       'taskPriority'     => $this->taskPriority,
+                       'vodSubAppId'      => $this->vodSubAppId,
+                       'sourceContext'    => $this->sourceContext,
+                       'sessionContext'   => $this->sessionContext,
+                       'storageRegion'    => $this->storageRegion,
+                   ] + $this->dynamicState();
+        } catch (Exception $e) {
+            throw new \Exception('播放密钥配置异常');
+        }
     }
 }
